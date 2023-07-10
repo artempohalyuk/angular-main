@@ -1,0 +1,56 @@
+import { Injectable } from '@angular/core';
+import { Observable, of, share, tap } from 'rxjs';
+import { IUser } from '../shared/models';
+import { StorageHelper } from '../utils';
+import { StorageKey } from '../shared';
+import { ApiService } from './api.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+    protected currentUser$!: Observable<IUser> | null;
+    protected currentUser!: IUser | null;
+  
+    constructor(private _apiService: ApiService) {}
+  
+    getCurrentUser$(): Observable<IUser> {
+      if (this.currentUser) {
+        return of(this.currentUser);
+      }
+      if (this.currentUser$) {
+        return this.currentUser$;
+      }
+      return (this.currentUser$ = this._apiService
+        .getCurrentUser()
+        .pipe(
+          share(),
+          tap((currentUser: IUser): void => {
+            this.currentUser$ = null;
+            this.currentUser = currentUser;
+          }),
+        ));
+    }
+
+    getCurrentUser(): IUser | null {
+      return this.currentUser;
+    }
+  
+    logout(): void {
+      this.clear();
+      window.location.href = 'http://auth.microfrontend.com/logout';
+    }
+  
+    isLoggedIn(): boolean {
+      return StorageHelper.hasItem(localStorage, StorageKey.Token);
+    }
+  
+    getToken(): string {
+      return StorageHelper.getItemAsString(localStorage, StorageKey.Token)!;
+    }
+  
+    clear(): void {
+      this.currentUser = null;
+      StorageHelper.setItem(localStorage, StorageKey.Token, null);
+    }
+}

@@ -1,0 +1,59 @@
+<div class="container mx-auto">
+    <div class="flex">
+      <div class="w-1/2 pr-4">
+        <h1 class="text-3xl font-bold mb-4">Керування командою</h1>
+        <div class="mb-4">
+          <input type="text" placeholder="Пошук гравців" class="w-full px-4 py-2 rounded border border-gray-300" [(ngModel)]="searchTerm">
+        </div>
+        <select class="w-full mb-4 px-4 py-2 rounded border border-gray-300" [(ngModel)]="selectedPosition">
+          <option value="">Усі позиції</option>
+          <option value="PG">Point Guard</option>
+          <option value="SG">Shooting Guard</option>
+          <option value="SF">Small Forward</option>
+          <option value="PF">Power Forward</option>
+          <option value="C">Center</option>
+        </select>
+        <ng-container *ngIf="activePlayers$ | async as activePlayers">
+          <div *ngFor="let player of activePlayers | nameFilter: searchTerm | positionFilter: selectedPosition | paginate: { itemsPerPage: 5, currentPage: p }" class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold">{{ player.firstName }} {{ player.lastName }}</h3>
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Add to Team
+              </button>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p><span class="font-bold">Birth City:</span> {{ player.birthCity }}</p>
+                <p><span class="font-bold">Birth Country:</span> {{ player.birthCountry }}</p>
+                <p><span class="font-bold">Birth Date:</span> {{ player.birthDate | date }}</p>
+                <p><span class="font-bold">Position:</span> {{ player.position }}</p>
+              </div>
+              <div>
+                <p><span class="font-bold">Team:</span> {{ player.team }}</p>
+                <p><span class="font-bold">Height:</span> {{ player.height }}</p>
+                <p><span class="font-bold">Weight:</span> {{ player.weight }}</p>
+              </div>
+            </div>
+          </div>
+  
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ng-container>
+      </div>
+      <div class="w-1/2 pl-4">
+        <ng-container *ngIf="userTeam$ | async as userTeam; else notCreatedTemplate">
+          <h2 class="text-2xl font-bold mb-4">Склад команди</h2>
+          <ul class="border border-gray-300 rounded">
+            <li *ngFor="let player of userTeam.players" class="px-4 py-2 flex items-center justify-between">
+              <span>{{ player.firstName }} {{ player.lastName }} ({{ player.position }})</span>
+              <button (click)="removePlayerFromTeam(player)" class="text-red-500 hover:underline">Видалити</button>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
+    </div>
+</div>
+
+<ng-template #notCreatedTemplate>
+  <h2 class="text-2xl font-bold mb-4">Тут ви можете створити свою власну команду.</h2>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="onCreateNewTeam()">Створити команду</button>
+</ng-template>
