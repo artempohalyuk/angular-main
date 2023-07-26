@@ -1,7 +1,9 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { IHttpResponse, INews, IPlayer, IUser } from "../shared/models";
+
 import { Observable, map } from "rxjs";
+
+import { IHttpResponse, INews, IPlayer, IUser } from "../shared/models";
 import { environment } from '@env';
 import { IUserTeam } from "../shared/models/user-team.model";
 
@@ -53,7 +55,9 @@ export class ApiService {
     }
 
     updateUserTeam(userTeam: IUserTeam): Observable<IUserTeam> {
-        return this._http.put<IHttpResponse<IUserTeam>>(`${this._apiEndpoint}/teams/update`, {userTeam})
+        const playerIds = userTeam.players.map( player => player.id );
+
+        return this._http.put<IHttpResponse<IUserTeam>>(`${this._apiEndpoint}/teams/update`, {playerIds})
             .pipe(
                 map(({payload}) => payload)
             );

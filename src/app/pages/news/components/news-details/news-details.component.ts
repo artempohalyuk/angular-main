@@ -1,17 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { INews } from '@models';
+
 import { Actions } from '@ngneat/effects-ng';
 import { Observable, map } from 'rxjs';
 
+import { INews } from '@models';
 import { AppRepository, loadNewsDetails } from 'src/app/store';
 
 @Component({
   selector: 'app-news-details',
   templateUrl: './news-details.component.html',
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule],
+  styles: [`
+    :host {
+      display: flex;
+      flex: 1;
+    }
+
+    .news-details-page { 
+      flex: 1;
+      background: url("/assets/news-bg.jpg") no-repeat center; background-size: cover;
+    }
+  `]
 })
 export class NewsDetailsComponent implements OnInit {
     newsDetails$: Observable<INews | null> = this._appRepository.newsDetails$.pipe(map((res) => res?.data ?? null));

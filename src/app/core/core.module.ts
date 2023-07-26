@@ -1,15 +1,19 @@
 import { NgModule } from '@angular/core';
-import { ApiService, ErrorsNotifierService } from '../services';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor, HttpErrorHandlerInterceptor } from './interceptors';
-import { FooterComponent, HeaderComponent } from './components';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideEffectsManager, provideEffects } from '@ngneat/effects-ng';
+
+import { ApiService, ErrorsNotifierService } from '../services';
+import { AuthInterceptor, HttpErrorHandlerInterceptor } from './interceptors';
+import { HeaderComponent } from './components';
 import { AppRepository, AppEffects } from '../store';
 
 @NgModule({
   imports: [
     HeaderComponent,
-    FooterComponent
+    HttpClientModule,
+    MatSnackBarModule
   ],
   providers: [
     ApiService,
@@ -29,8 +33,7 @@ import { AppRepository, AppEffects } from '../store';
     },
   ],
   exports: [
-    HeaderComponent,
-    FooterComponent
+    HeaderComponent
   ]
 })
 export class CoreModule { }

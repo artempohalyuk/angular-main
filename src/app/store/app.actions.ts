@@ -5,3 +5,5 @@ export const loadNewsDetails = createAction('[News Details] Load', (newsId: stri
 export const loadActivePlayers = createAction('[Active Players] Load');
 export const loadUserTeam = createAction('[User Team] Load');
 export const createUserTeam = createAction('[User Team] Create', (name: string) => ({name}));
+export const updateUserTeam = createAction('[User Team] Update', (userTeam) => ({userTeam}));
+export const removeUserTeam = createAction('[User Team] Remove');

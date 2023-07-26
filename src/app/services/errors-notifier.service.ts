@@ -1,7 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
-import { IHttpErrorResponse } from '../shared/models';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { IHttpErrorResponse } from '../shared/models';
 
 @Injectable()
 export class ErrorsNotifierService {

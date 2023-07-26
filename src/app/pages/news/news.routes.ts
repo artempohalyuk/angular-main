@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+
 import { NewsComponent } from "./news.component";
 import { NewsDetailsComponent } from "./components/news-details/news-details.component";
 

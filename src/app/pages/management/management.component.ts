@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { Observable, map } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { IPlayer } from '@models';
-import { ApiService, AuthService } from 'src/app/services';
-import { CreateNewTeamPopupComponent } from 'src/app/shared/components';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { NameFilterPipe, PositionFilterPipe } from './pipes';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AppRepository, loadActivePlayers, loadUserTeam } from 'src/app/store';
 import { Actions } from '@ngneat/effects-ng';
+import { MatDialog } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
+
+import { IPlayer, IUser, IUserTeam } from '@models';
+import { AuthService } from 'src/app/services';
+import { CreateNewTeamPopupComponent } from 'src/app/shared/components';
+import { NameFilterPipe, PositionFilterPipe } from './pipes';
+import { AppRepository, loadActivePlayers, loadUserTeam, updateUserTeam } from 'src/app/store';
 
 
 @Component({
@@ -18,16 +20,50 @@ import { Actions } from '@ngneat/effects-ng';
   templateUrl: './management.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgxPaginationModule, NameFilterPipe, PositionFilterPipe, CommonModule, FormsModule]
+  imports: [
+    NgxPaginationModule,
+    NameFilterPipe,
+    PositionFilterPipe,
+    CommonModule,
+    FormsModule,
+    MatProgressSpinnerModule
+  ],
+  styles: [`
+    :host {
+      display: flex;
+      flex: 1;
+    }
+
+    .management-page {
+      flex: 1;
+      background: url("/assets/team-bg.jpg") no-repeat center; background-size: cover;
+    }
+
+    .management-pagination ::ng-deep .ngx-pagination a { color: white }
+  `]
 })
 export class ManagementComponent implements OnInit {
-  p: number = 1;
+  currentPage: number = 1;
   searchTerm!: string;
-  selectedPosition!: string;
+  selectedPosition: string = '';
+  userTeam!: IUserTeam;
   activePlayers$: Observable<IPlayer[] | null> = this._appRepository.activePlayers$.pipe(map((res) => res?.data ?? null));
-  activePlayersLoader$: Observable<boolean> = this._appRepository.newsDetails$.pipe(map((res) => res?.loading ?? false));
-  userTeam$: Observable<any> = this._appRepository.userTeam$.pipe(map((res) => res?.data ?? null));
-  userTeamLoader$: Observable<boolean> = this._appRepository.userTeam$.pipe(map((res) => res?.loading ?? false));
+  activePlayersLoading$: Observable<boolean> = this._appRepository.newsDetails$.pipe(map((res) => res?.loading ?? false));
+  userTeam$: Observable<IUserTeam | null> = this._appRepository.userTeam$.pipe(
+    map((res) => {
+      console.log(res?.loading);
+      if (res?.data) {
+        this.userTeam = res?.data;
+      }
+
+      return res?.data ?? null;
+    })
+  );
+  userTeamLoading$: Observable<boolean> = this._appRepository.userTeam$.pipe(map((res) => res?.loading ?? false));
+
+  get currentUser(): IUser | null {
+    return this._authService.getCurrentUser();
+  }
 
   constructor(
     private _dialog: MatDialog,
@@ -38,22 +74,29 @@ export class ManagementComponent implements OnInit {
 
   ngOnInit() {
     this._actions.dispatch(loadActivePlayers());
-    
-    debugger
-    if (this._authService.getCurrentUser()?.teamId) {
+
+    if (this.currentUser?.teamId) {
       this._actions.dispatch(loadUserTeam());
     }
   }
 
   onCreateNewTeam(): void {
-    const dialogRef = this._dialog.open(CreateNewTeamPopupComponent, {
+    this._dialog.open(CreateNewTeamPopupComponent, {
       width: '400px',
       disableClose: true,
       autoFocus: true
     });
   }
 
-  addPlayerToTeam(player: any): void {}
+  onAddToTeamClick(player: IPlayer): void {
+    this.userTeam.players = [player, ...this.userTeam.players];
 
-  removePlayerFromTeam(player: any): void {}
+    this._actions.dispatch(updateUserTeam(this.userTeam));
+  }
+
+  removePlayerFromTeam(player: IPlayer): void {
+    this.userTeam.players = this.userTeam.players.filter(p => p.id !== player.id);
+
+    this._actions.dispatch(updateUserTeam(this.userTeam));
+  }
 }

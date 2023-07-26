@@ -1,7 +1,9 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { AuthService, ErrorsNotifierService } from 'src/app/services';
 import { HttpStatus } from 'src/app/shared/enums';
 

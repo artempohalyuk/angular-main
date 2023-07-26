@@ -1,5 +1,7 @@
-import { createStore, select, withProps  } from "@ngneat/elf";
 import { Injectable } from "@angular/core";
+
+import { createStore, select, withProps  } from "@ngneat/elf";
+
 import { INews, IPlayer, IUserTeam } from "@models";
 
 export interface IStoreData<T> {
@@ -51,6 +53,10 @@ export class AppRepository {
             ...state,
             activePlayers,
         }));
+    }
+
+    selectUserTeam() {
+        return store.pipe(select((state) => state.userTeam));
     }
 
     updateUserTeam(userTeam: StoreProps['userTeam'], error?: string) {

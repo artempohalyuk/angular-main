@@ -1,4 +1,5 @@
 export interface INews {
+    id: string;
     newsID: number;
     source: string;
     updated: Date;

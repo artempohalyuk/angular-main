@@ -8,6 +8,6 @@ export class CookieHelper {
             return cookie.substring(valueStartIndex);
           }
         }
-        return undefined; // Key not found or value is empty
+        return undefined;
     }
 }

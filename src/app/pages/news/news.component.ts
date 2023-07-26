@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { Observable, map } from 'rxjs';
-import { INews } from '@models';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CommonModule } from '@angular/common';
 import { Actions } from '@ngneat/effects-ng';
+
+import { INews } from '@models';
 import { AppRepository, loadNews } from 'src/app/store';
 
 @Component({
@@ -12,7 +14,20 @@ import { AppRepository, loadNews } from 'src/app/store';
   templateUrl: './news.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgxPaginationModule, CommonModule]
+  imports: [NgxPaginationModule, CommonModule, RouterModule],
+  styles: [`
+    :host {
+      display: flex;
+      flex: 1;
+    }
+
+    .news-page {
+      flex: 1;
+      background: url("/assets/news-bg.jpg") no-repeat center; background-size: cover;
+    }
+
+    .news-pagination ::ng-deep .ngx-pagination a { color: white }
+  `]
 })
 export class NewsComponent implements OnInit {
   p: number = 1;

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { Observable, of, share, tap } from 'rxjs';
+
 import { IUser } from '../shared/models';
 import { StorageHelper } from '../utils';
 import { StorageKey } from '../shared';
@@ -34,6 +36,10 @@ export class AuthService {
 
     getCurrentUser(): IUser | null {
       return this.currentUser;
+    }
+
+    setCurrentUser(user: IUser | null): void {
+      this.currentUser = user;
     }
   
     logout(): void {

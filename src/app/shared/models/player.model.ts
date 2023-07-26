@@ -1,4 +1,5 @@
 export interface IPlayer {
+    id: string;
     playerID: number;
     sportsDataID: string;
     status: string;
