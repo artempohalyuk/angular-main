@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --configuration production",
     "subdomain": "ng serve --host main.microfrontend.com --port 4200",
     "proxy": "ng serve --proxy-config proxy.conf.json --disable-host-check",
     "watch": "ng build --watch --configuration development",
