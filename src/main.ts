@@ -8,8 +8,6 @@ import { environment } from '@env';
 const cookieJwt = CookieHelper.getCookieValue('jwt');
 const jwt = StorageHelper.getItemAsString(localStorage, StorageKey.Token);
 
-debugger
-
 if (cookieJwt || jwt) {
   if (!jwt) {
     StorageHelper.setItem(localStorage, StorageKey.Token, cookieJwt);
@@ -18,6 +16,8 @@ if (cookieJwt || jwt) {
   platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.error(err));
 } else {
+  console.log('cookie', cookieJwt);
+  console.log('jwt', jwt);
   window.location.href = `${environment.authUrl}/logout`;
 }
 
