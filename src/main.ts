@@ -8,6 +8,8 @@ import { environment } from '@env';
 const cookieJwt = CookieHelper.getCookieValue('jwt');
 const jwt = StorageHelper.getItemAsString(localStorage, StorageKey.Token);
 
+debugger
+
 if (cookieJwt || jwt) {
   if (!jwt) {
     StorageHelper.setItem(localStorage, StorageKey.Token, cookieJwt);
