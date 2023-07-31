@@ -19,7 +19,7 @@ export class AuthGuard {
       switchMap(
         (currentUser: IUser | null) => {
           if (!currentUser) {
-            return this.router.navigateByUrl(environment.authUrl, { skipLocationChange: true });
+            return this.router.navigateByUrl(`${environment.authUrl}/logout`, { skipLocationChange: true });
           }
 
           return of(true);

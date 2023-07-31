@@ -16,7 +16,7 @@ if (cookieJwt || jwt) {
   platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.error(err));
 } else {
-  window.location.href = environment.authUrl;
+  window.location.href = `${environment.authUrl}/logout`;
 }
 
 
