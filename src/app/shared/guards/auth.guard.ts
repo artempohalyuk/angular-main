@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/services';
 import { IUser } from '../models';
+import { environment } from '@env';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class AuthGuard {
       switchMap(
         (currentUser: IUser | null) => {
           if (!currentUser) {
-            return this.router.navigateByUrl('http://auth.microfrontend.com', { skipLocationChange: true });
+            return this.router.navigateByUrl(environment.authUrl, { skipLocationChange: true });
           }
 
           return of(true);

@@ -5,7 +5,8 @@
 export const environment: IEnvironment = {
   production: false,
   // enable correct working on virtual machine
-  apiEndpoint: `http://localhost:5000/api`,
+  apiEndpoint: `https://server-microfrontend.vercel.app/api`,
+  authUrl: 'http://auth.microfrontend.com'
 };
 
 

@@ -6,6 +6,7 @@ import { IUser } from '../shared/models';
 import { StorageHelper } from '../utils';
 import { StorageKey } from '../shared';
 import { ApiService } from './api.service';
+import { environment } from '@env';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,7 @@ export class AuthService {
   
     logout(): void {
       this.clear();
-      window.location.href = 'http://auth.microfrontend.com/logout';
+      window.location.href = `${environment.authUrl}/logout`;
     }
   
     isLoggedIn(): boolean {

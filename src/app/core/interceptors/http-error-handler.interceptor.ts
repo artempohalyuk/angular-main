@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@env';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -22,7 +23,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
             switch (response.status) {
               case HttpStatus.Unauthorized: {
                 this._authService.clear();
-                window.location.href = 'http://auth.microfrontend.com/logout';
+                window.location.href = `${environment.authUrl}/logout`;
                 break;
               }
 

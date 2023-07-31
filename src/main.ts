@@ -3,6 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { CookieHelper, StorageHelper } from './app/utils';
 import { StorageKey } from './app/shared';
+import { environment } from '@env';
 
 const cookieJwt = CookieHelper.getCookieValue('jwt');
 const jwt = StorageHelper.getItemAsString(localStorage, StorageKey.Token);
@@ -15,7 +16,7 @@ if (cookieJwt || jwt) {
   platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.error(err));
 } else {
-  window.location.href = 'http://auth.microfrontend.com/';
+  window.location.href = environment.authUrl;
 }
 
 

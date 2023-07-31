@@ -6,4 +6,5 @@ declare module 'queue-microtask' {
 interface IEnvironment {
   production: boolean;
   apiEndpoint: string;
+  authUrl: string;
 }
