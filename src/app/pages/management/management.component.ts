@@ -48,7 +48,7 @@ export class ManagementComponent implements OnInit {
   selectedPosition: string = '';
   userTeam!: IUserTeam;
   activePlayers$: Observable<IPlayer[] | null> = this._appRepository.activePlayers$.pipe(map((res) => res?.data ?? null));
-  activePlayersLoading$: Observable<boolean> = this._appRepository.newsDetails$.pipe(map((res) => res?.loading ?? false));
+  activePlayersLoading$: Observable<boolean> = this._appRepository.activePlayers$.pipe(map((res) => res?.loading ?? false));
   userTeam$: Observable<IUserTeam | null> = this._appRepository.userTeam$.pipe(
     map((res) => {
       if (res?.data) {
