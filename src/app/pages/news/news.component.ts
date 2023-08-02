@@ -8,13 +8,14 @@ import { Actions } from '@ngneat/effects-ng';
 
 import { INews } from '@models';
 import { AppRepository, loadNews } from 'src/app/store';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgxPaginationModule, CommonModule, RouterModule],
+  imports: [NgxPaginationModule, CommonModule, RouterModule, MatProgressSpinnerModule],
   styles: [`
     :host {
       display: flex;

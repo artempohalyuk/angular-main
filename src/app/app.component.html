@@ -1,7 +1,24 @@
-<div class="relative flex flex-col min-h-screen bg-gray-50">
-  <app-header></app-header>
-
-  <div class="flex flex-grow bg-slate-600">
-    <router-outlet></router-outlet>
+<ng-container *ngIf="!user; else appTemplate">
+  <div class="flex h-screen justify-center items-center">
+    <mat-spinner
+        color="accent">
+    </mat-spinner>
   </div>
-</div>
+</ng-container>
+
+<ng-template #appTemplate>
+  <div class="relative flex flex-col min-h-screen bg-gray-50">
+    <app-header></app-header>
+  
+    <div class="flex flex-grow bg-slate-800">
+      <div *ngIf="isLoading" class="flex justify-center items-center flex-grow">
+        <mat-spinner
+            color="accent">
+        </mat-spinner>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-template>
+
+

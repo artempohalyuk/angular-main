@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared/guards';
 import { CoreModule } from './core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -29,9 +30,8 @@ import { CoreModule } from './core';
       },
     ]),
     CoreModule,
-    // HttpClientModule,
+    MatProgressSpinnerModule,
     MatDialogModule,
-    // MatSnackBarModule,
   ],
   bootstrap: [AppComponent]
 })
