@@ -51,7 +51,6 @@ export class ManagementComponent implements OnInit {
   activePlayersLoading$: Observable<boolean> = this._appRepository.newsDetails$.pipe(map((res) => res?.loading ?? false));
   userTeam$: Observable<IUserTeam | null> = this._appRepository.userTeam$.pipe(
     map((res) => {
-      console.log(res?.loading);
       if (res?.data) {
         this.userTeam = res?.data;
       }
